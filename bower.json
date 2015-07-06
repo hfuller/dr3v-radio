@@ -1,0 +1,22 @@
+{
+  "name": "dr3v-radio",
+  "version": "0.0.0",
+  "description": "dr3v Radio (http://dr3v.com/radio) Web client",
+  "main": "index.html",
+  "authors": [
+    "hfuller"
+  ],
+  "license": "GPLv2",
+  "homepage": "http://dr3v.com/radio",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jplayer": "~2.9.2",
+    "skeleton": "~2.0.4"
+  }
+}

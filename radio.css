@@ -1,0 +1,62 @@
+html,body {
+	background-color:#eee;
+	height:100%;
+}
+.container {
+	background-color:#fff;
+	min-height:100%;
+	padding:/*0px*/ 16px;
+}
+
+#header {
+	border-bottom:solid black 1px;
+}
+#logo {
+	background-image:url(dr3v.png);
+	background-size:auto 60px; /* the line-height */
+	background-repeat:no-repeat;
+	display:inline-block; /* don't wrap */
+	min-width:110px; /* how wide the image ends up at 60px tall */
+	height:64px; /* make it a little bigger so I can nudge it downward 4px */
+	background-position:bottom; /* which makes it line up with the rest of the line (not image) */
+}
+#logo #logo-text {
+	visibility:hidden;
+}
+
+.jp-details {
+	padding-bottom:1em; /* to make room for jp-current-time down there */
+}
+.jp-current-time {
+	width:100%;
+	text-align:center;
+	font-size:1.5em;
+	visibility:hidden; /* we show when the user clicks paly */
+}
+.jp-current-time:before {
+	content:'Listening for ';
+}
+.jp-controls-holder {
+	height:40px !important;
+}
+.jp-controls {
+	width:101px; /* needs to be half as wide because we have only pause not stop */
+}
+#player-ui {
+	width:100%;
+	padding:0px; /*remove padding*/
+}
+.jp-type-single {
+	padding:20px; /* and put it back here*/
+}
+.jp-volume-bar {
+	width:100%;
+	background:rgba(80,80,80,1);
+}
+
+#status {
+	font-size:2.5rem;
+}
+#title {
+	font-size:1.75rem;
+}

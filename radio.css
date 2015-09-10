@@ -27,10 +27,10 @@ html,body {
 	visibility:hidden;
 }
 
-#status {
+.status {
 	font-size:2.5rem;
 }
-#title {
+.title {
 	font-size:1.75rem;
 }
 
@@ -50,4 +50,7 @@ html,body {
 	margin:4px 4px -4px 4px;
 }
 
+#no-broadcast {
+	display:none;
+}
 

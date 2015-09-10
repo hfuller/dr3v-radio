@@ -1,4 +1,7 @@
 $(document).ready(function(){
+
+	var oldtitle = "";
+
 	$('#player-ui').hide(0); //hide the player until we know there is a cast
 	//why didn't I just have it hidden to begin with from the css?
 	//in case the user doesn't have javascript!
@@ -42,7 +45,7 @@ $(document).ready(function(){
 		$.ajax({
 			url:"cast/json.xsl?mount=/stream",
 			dataType:"json",
-			minmeType:"text/json",
+			mimeType:"text/json",
 			cache:false
 		}).done(function(data){
 			if ( data.sources.length > 0 ) {
@@ -53,13 +56,37 @@ $(document).ready(function(){
 				$('#title').html(title);
 				$('#status').html(desc);
 				console.log(desc);
-				$('#player-ui').show(400);
+				$('#player-ui').show(0);
+				$('#no-broadcast').hide(400, function() {
+					$('#broadcast').show(400);
+				});
 				console.log('Ok');
+
+				//do we need to update album art?
+				if ( title != oldtitle ) {
+					//we do
+					console.log("We need to go for album art");
+					oldtitle = title;
+					var artist = title.substring(0,title.indexOf(' - '));
+					var track = title.substring(title.lastIndexOf(' - ')+3);
+					console.log("New artist is " + artist + " and track is " + track);
+					var searchuri = "http://ws.audioscrobbler.com/2.0/?method=track.search&track=" + encodeURIComponent(track) + "&artist=" + encodeURIComponent(artist) + "&api_key=d0c10030924080a2ac3b909e7cd96cee&format=json";
+					console.log("Build search URI: " + searchuri);
+
+					$.ajax({
+						url: searchuri,
+						dataType:"jsonp"
+					}).done(function(data) {
+						console.log(data);
+					});
+				}
+
 			} else {
-				$('#player-ui').hide(400);
+				$('#broadcast').delay(400).hide(400, function() {
+					$('#no-broadcast').show(400);
+				});
 				console.log("Not broadcasting");
-				$('#status').html("Sorry we missed&nbsp;you!");
-				$('#title').html("There is no DJ broadcasting right now.");
+				oldtitle = "";
 			}
 		});
 		setTimeout(refreshTitle, 10*1000);

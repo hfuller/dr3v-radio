@@ -50,26 +50,65 @@ $(document).ready(function(){
 		}).done(function(data){
 			if ( data.sources.length > 0 ) {
 				//there is someone streaming
-				var title = data.sources[0].title;
-				var desc = data.sources[0].description;
-				console.log(title);
-				$('#title').html(title);
-				$('#status').html(desc);
-				console.log(desc);
 				$('#player-ui').show(0);
 				$('#no-broadcast').hide(400, function() {
 					$('#broadcast').show(400);
 				});
 				console.log('Ok');
 
+				var title = data.sources[0].title;
+				console.log(title);
+
 				//do we need to update album art?
 				if ( title != oldtitle ) {
 					//we do
 					console.log("We need to go for album art");
+
+					//first update the basics
+					var desc = data.sources[0].description;
+					console.log(desc);
+					$('#status').html(desc);
+					var name = data.sources[0].name;
+					var dj = name.substring(name.indexOf(' - ')+3);
+					console.log("DJ " + dj);
+					$('#dj').html(dj);
+					$('#dj-subtitle').show();
+
 					oldtitle = title;
+					
 					var artist = title.substring(0,title.indexOf(' - '));
-					var track = title.substring(title.lastIndexOf(' - ')+3);
-					console.log("New artist is " + artist + " and track is " + track);
+					if ( artist == "" ) artist = null;
+
+					var track = title;
+					var album = null;
+					if ( title.indexOf('|') != -1 ) {
+						console.log("fucked-up nelson title format");
+						track = title.substring(title.lastIndexOf(' - ')+3,title.indexOf('|')-1);
+						var album = title.substring(title.indexOf(' from ')+6,title.lastIndexOf(' ('));
+					} else if ( title.lastIndexOf(' - ') != -1 ) {
+						console.log("normal person format (guessing)");
+						track = title.substring(title.lastIndexOf(' - ')+3);
+						if ( title.indexOf(' - ') != title.lastIndexOf(' - ') ) {
+							//maybe there's an album?
+							album = title.substring(title.indexOf(' - ')+3,title.lastIndexOf(' - '));
+						}
+					}
+
+					console.log("New artist is " + artist + " and track is " + track + " and album is " + album);
+
+					console.log("Updating metadata on page");
+					if ( artist == null ) {
+						$('#title').html(track);
+					} else {
+						$('#title').html(artist + ' - ' + track);
+					}
+					if ( album == null ) {
+						$('#album-subtitle').hide();
+					} else {
+						$('#album').html(album);
+						$('#album-subtitle').show();
+					}
+
 					var searchuri = "http://ws.audioscrobbler.com/2.0/?method=track.search&track=" + encodeURIComponent(track) + "&artist=" + encodeURIComponent(artist) + "&api_key=d0c10030924080a2ac3b909e7cd96cee&format=json";
 					console.log("Build search URI: " + searchuri);
 

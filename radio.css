@@ -32,6 +32,17 @@ html,body {
 }
 .title {
 	font-size:1.75rem;
+	margin-top:1.5rem;
+}
+.subtitle {
+	font-size:1.5rem;
+	display:none; /*hide these optional pieces until they exist*/
+	color:#aaa;
+	position:relative;
+	top:-0.2rem;
+}
+.subtitle span {
+	color:#777;
 }
 
 #player-ui button {

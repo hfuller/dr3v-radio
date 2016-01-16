@@ -43,12 +43,15 @@ $(document).ready(function(){
 	function refreshTitle() {
 		console.log("Going for current status");
 		$.ajax({
-			url:"cast/json.xsl?mount=/stream",
-			dataType:"json",
-			mimeType:"text/json",
+			url:"cast/xml.xsl?mount=/stream",
+			dataType:"xml",
+			/* mimeType:"application/xml",*/
 			cache:false
 		}).done(function(data){
-			if ( data.sources.length > 0 ) {
+			if ( data.childNodes.length > 1 ) {
+
+				$data = $(data);
+
 				//there is someone streaming
 				$('#player-ui').show(0);
 				$('#no-broadcast').hide(400, function() {
@@ -56,7 +59,7 @@ $(document).ready(function(){
 				});
 				console.log('Ok');
 
-				var title = data.sources[0].title;
+				var title = $data.find("title").text();
 				console.log(title);
 
 				//do we need to update album art?
@@ -65,10 +68,10 @@ $(document).ready(function(){
 					console.log("We need to go for album art");
 
 					//first update the basics
-					var desc = data.sources[0].description;
+					var desc = $data.find("description").text();
 					console.log(desc);
 					$('#status').html(desc);
-					var name = data.sources[0].name;
+					var name = $data.find("name").text();
 					var dj = name.substring(name.indexOf(' - ')+3);
 					console.log("DJ " + dj);
 					$('#dj').html(dj);

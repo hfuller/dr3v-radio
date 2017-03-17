@@ -1,1 +1,4 @@
+app.php
+*.jpg
+*.png
 bower_components/

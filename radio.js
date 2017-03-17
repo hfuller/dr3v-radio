@@ -99,6 +99,10 @@ $(document).ready(function(){
 
 					console.log("New artist is " + artist + " and track is " + track + " and album is " + album);
 
+					//fix dumb stuff
+					if ( artist == "?" ) artist = null;
+					if ( album == "?" ) album = null;
+
 					console.log("Updating metadata on page");
 					if ( artist == null ) {
 						$('#title').html(track);

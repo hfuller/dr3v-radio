@@ -23,7 +23,31 @@
 		<div class="container">
 			<div class="row" id="header">
 				<div class="twelve columns">
-					<h1><span id="logo"><span id="logo-text">dr3v</span></span> Radio</h1>
+					<h1 class="secret"><span id="logo"><span id="logo-text">dr3v</span></span> Radio</h1>
+				</div>
+			</div>
+			<div class="row" id="admin">
+				<div class="one-half column">
+					<h5>Requests</h5>
+					<div id="request-list">
+						Requests will come in here.
+					</div>
+				</div>
+				<div class="one-half column">
+					<h5>Settings</h5>
+					<form id="admin-settings">
+						<div>
+							<label for="admin-dj-name">DJ name</label>
+							<input id="admin-dj-name" name="admin-dj-name" placeholder="(Hide DJ name)">
+							<label for="admin-show-name">Show name</label>
+							<input id="admin-show-name" name="admin-show-name" placeholder="cool awesome music">
+							<label for="admin-album-art-url">Force album art URL</label>
+							<input id="admin-album-art-url" name="admin-album-art-url" placeholder="(Grab automatically)">
+							<label for="admin-requests-enabled">Taking requests</label>
+							<input type="checkbox" id="admin-requests-enabled" name="admin-requests-enabled">
+						</div>
+						<div><button id="admin-save">Save</button></div>
+					</form>
 				</div>
 			</div>
 			<div class="row" id="broadcast">

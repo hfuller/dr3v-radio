@@ -27,6 +27,20 @@ html,body {
 	visibility:hidden;
 }
 
+#admin {
+	border-bottom:solid black 1px;
+	display:none;
+}
+#admin h5 {
+	border-bottom:solid #ccc 1px;
+}
+.secret {
+	-webkit-user-select:none; /*prevent it from highlighting when we do the secret thing*/
+	-moz-user-select: none;
+	-khtml-user-select: none;
+	user-select: none;
+}
+
 .status {
 	font-size:2.5rem;
 }

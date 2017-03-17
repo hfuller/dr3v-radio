@@ -154,4 +154,37 @@ $(document).ready(function(){
 	};
 	$('#status').html("Loading status...");
 	refreshTitle();
+
+	//admin area setup and handlers
+	let password = "";
+	$('.secret').on('dblclick', function(e) {
+		e.preventDefault(); //so it doesn't highlight all over the page
+		password = prompt("Password, please.", "Whatever! It's 2009!");
+		$.ajax({
+			type: "POST", url: "settings.php", dataType: "json", data: {
+				"password": password
+			}, success: function(ret) {
+				console.log(ret);
+				if ( ret === true ) {
+					$('#admin').show(1000);
+				}
+			}
+		});
+	});
+	$('#admin-save').on('click', function(e) {
+		e.preventDefault(); //don't submit the form
+		$.ajax({
+			type: "POST", url: "settings.php", dataType: "json", data: {
+				"password": password,
+				"dj-name": $("#admin-dj-name").val(),
+				"show-name": $("#admin-show-name").val(),
+				"album-art-url": $("#admin-album-art-url").val(),
+				"requests-enabled": $('#admin-requests-enabled').is(":checked"),
+			}, success: function(ret) {
+				if ( ret === true ) {
+					alert("Saved!");
+				}
+			}
+		});
+	});
 });

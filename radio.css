@@ -41,6 +41,10 @@ html,body {
 	position:relative;
 	top:-0.2rem;
 }
+.art {
+	/*visibility:hidden;*/
+	opacity:0;
+}
 .subtitle span {
 	color:#777;
 }

@@ -112,14 +112,26 @@ $(document).ready(function(){
 						$('#album-subtitle').show();
 					}
 
-					var searchuri = "http://ws.audioscrobbler.com/2.0/?method=track.search&track=" + encodeURIComponent(track) + "&artist=" + encodeURIComponent(artist) + "&api_key=d0c10030924080a2ac3b909e7cd96cee&format=json";
-					console.log("Build search URI: " + searchuri);
-
+					console.log("Going for album art");
+					var art = null;
+					//TODO: make this more efficient
+					$("#art").fadeTo(1000,0);
 					$.ajax({
-						url: searchuri,
-						dataType:"jsonp"
+						url: "art.php",
+						data:{
+							artist:artist,
+							album:album,
+							track:track
+						}
 					}).done(function(data) {
-						console.log(data);
+						console.log("Preload " + data);
+						img = new Image();
+						img.onload = function(){
+							console.log("splat");
+							$("#art").attr("src",data);
+							$("#art").fadeTo(1000,1);
+						};
+						img.src = data;
 					});
 				}
 

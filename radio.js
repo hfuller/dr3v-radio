@@ -48,7 +48,10 @@ $(document).ready(function(){
 			/* mimeType:"application/xml",*/
 			cache:false
 		}).done(function(data){
-			if ( data.childNodes.length > 1 ) {
+			console.log("length:" + data.childNodes.length);
+			console.log(data.childNodes);
+			if ( data.childNodes.length > 1 && data.childNodes[1].childNodes.length > 0 ) {
+				//There is a list of sources present and that list is bigger than 0
 
 				$data = $(data);
 

@@ -1,5 +1,13 @@
 html,body {
 	background-color:#eee;
+	
+	/* everything started here is experimental and won't work */
+/* 	background-image: url("large");
+    background-repeat: no-repeat;
+    background-size: 100% 177.77%;
+    background-attachment: fixed; */
+	/* end of experimenting */
+	
 	height:100%;
 }
 .container {
@@ -9,6 +17,10 @@ html,body {
 }
 .row {
 	margin-top:8px;
+}
+
+p {
+	float:left; /*Used for stank*/
 }
 
 #header {

@@ -9,7 +9,7 @@ $(document).ready(function(){
 	$('#status').html("Loading player...");
 	var stream = {
 		title: "dr3v Radio",
-		mp3: "http://dr3v.com:8000/stream"
+		mp3: "https://dr3v.com/radio/cast/stream"
 	};
 	var ready = false;
 	$("#player").jPlayer({

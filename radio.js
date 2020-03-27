@@ -1,6 +1,7 @@
 $(document).ready(function(){
 
-	var oldtitle = "";
+	var oldTitle = "";
+	var oldAlbum = "";
 
 	$('#player-ui').hide(0); //hide the player until we know there is a cast
 	//why didn't I just have it hidden to begin with from the css?
@@ -40,6 +41,22 @@ $(document).ready(function(){
 		toggleDuration: true
 	});
 
+	function showMetadata(newArtist, newAlbum, newTrack) {
+		console.log("Updating metadata on page");
+		if ( newArtist == null ) {
+			$('#title').html(newTrack);
+		} else {
+			$('#title').html(newArtist + ' - ' + newTrack);
+		}
+		if ( newAlbum == null ) {
+			$('#album-subtitle').hide();
+		} else {
+			$('#album').html(newAlbum);
+			$('#album-subtitle').show();
+		}
+	}
+
+
 	function refreshTitle() {
 		console.log("Going for current status");
 		$.ajax({
@@ -66,7 +83,7 @@ $(document).ready(function(){
 				console.log(title);
 
 				//do we need to update album art?
-				if ( title != oldtitle ) {
+				if ( title != oldTitle ) {
 					//we do
 					console.log("We need to go for album art");
 
@@ -80,7 +97,7 @@ $(document).ready(function(){
 					$('#dj').html(dj);
 					$('#dj-subtitle').show();
 
-					oldtitle = title;
+					oldTitle = title;
 					
 					var artist = title.substring(0,title.indexOf(' - '));
 					if ( artist == "" ) artist = null;
@@ -106,40 +123,35 @@ $(document).ready(function(){
 					if ( artist == "?" ) artist = null;
 					if ( album == "?" ) album = null;
 
-					console.log("Updating metadata on page");
-					if ( artist == null ) {
-						$('#title').html(track);
+					if ( album != null && album != oldAlbum ) {
+						oldAlbum = album;
+						console.log("the album name changed. Going for album art");
+						var art = null;
+						//TODO: make this more efficient
+						$("#art").fadeTo(1000, 0, function() { //take 1000 ms to fade to 0% opacity, then run this function
+							showMetadata(artist, album, track);
+						});
+						$.ajax({
+							url: "art.php",
+							data:{
+								artist:artist,
+								album:album,
+								track:track
+							}
+						}).done(function(data) {
+							console.log("Preload " + data);
+							img = new Image();
+							img.onload = function(){
+								console.log("splat");
+								$("#art").attr("src",data);
+								$("#art").fadeTo(1000,1);
+							};
+							img.src = data;
+						});
 					} else {
-						$('#title').html(artist + ' - ' + track);
-					}
-					if ( album == null ) {
-						$('#album-subtitle').hide();
-					} else {
-						$('#album').html(album);
-						$('#album-subtitle').show();
-					}
-
-					console.log("Going for album art");
-					var art = null;
-					//TODO: make this more efficient
-					$("#art").fadeTo(1000,0);
-					$.ajax({
-						url: "art.php",
-						data:{
-							artist:artist,
-							album:album,
-							track:track
-						}
-					}).done(function(data) {
-						console.log("Preload " + data);
-						img = new Image();
-						img.onload = function(){
-							console.log("splat");
-							$("#art").attr("src",data);
-							$("#art").fadeTo(1000,1);
-						};
-						img.src = data;
-					});
+						console.log("The album did not change. We just update metadata immediately");
+						showMetadata(artist, album, track);
+					}	
 				}
 
 			} else {
@@ -147,7 +159,8 @@ $(document).ready(function(){
 					$('#no-broadcast').show(400);
 				});
 				console.log("Not broadcasting");
-				oldtitle = "";
+				oldTitle = "";
+				oldAlbum = "";
 			}
 		});
 		setTimeout(refreshTitle, 10*1000);
